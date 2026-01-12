@@ -15,9 +15,9 @@ contract StorageLayout {
     uint8 public a;
     uint16 public b;
     uint256 public c;
-    uint64 public d;
     uint64 public e;
     uint128 public f;
+    uint64 public d;
 
     // 연습문제 2: 동적 배열
     uint256[] public dynamicArray;
@@ -48,21 +48,22 @@ contract StorageLayout {
         pure 
         returns (uint256 calculatedSlot) 
     {
-        // TODO: 매핑의 키 슬롯 계산
-        // 힌트: keccak256(abi.encode(key, mappingSlot))
+        // 매핑의 키 슬롯 계산
+        // 공식: keccak256(abi.encode(key, slot))
+        // 주의: key와 slot의 순서가 중요합니다!
         calculatedSlot = uint256(keccak256(abi.encode(key, mappingSlot)));
     }
 
     // 테스트용 setter 함수들
-    function set_a(uint8 _a) external {
+    function setA(uint8 _a) external {
         a = _a;
     }
     
-    function set_b(uint16 _b) external {
+    function setB(uint16 _b) external {
         b = _b;
     }
     
-    function set_c(uint256 _c) external {
+    function setC(uint256 _c) external {
         c = _c;
     }
     

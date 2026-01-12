@@ -158,7 +158,7 @@ contract Proxy {
 
 ### 과제 1: call vs delegatecall 비교 실습
 
-`practice/CallComparison.sol` 파일을 작성하여 다음을 구현하세요:
+`step01_practice/CallComparison.sol` 파일을 작성하여 다음을 구현하세요:
 
 1. `Library` 컨트랙트: `setValue(uint256)` 함수
 2. `Caller` 컨트랙트:

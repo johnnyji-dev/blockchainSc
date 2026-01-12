@@ -22,20 +22,20 @@ foundryup
 Day1/
 ├── 01-storage-layout/
 │   ├── README.md
-│   ├── exercises/
-│   └── practice/
+│   ├── step02_exercises/
+│   └── step01_practice/
 ├── 02-delegatecall/
 │   ├── README.md
-│   ├── exercises/
-│   └── practice/
+│   ├── step02_exercises/
+│   └── step01_practice/
 ├── 03-gas-optimization/
 │   ├── README.md
-│   ├── exercises/
-│   └── practice/
+│   ├── step02_exercises/
+│   └── step01_practice/
 └── 04-bytecode-abi/
     ├── README.md
-    ├── exercises/
-    └── practice/
+    ├── step02_exercises/
+    └── step01_practice/
 ```
 
 ---
@@ -63,7 +63,7 @@ forge inspect StorageLayout storage-layout
 **실습 과제:**
 1. `StorageLayout.sol`의 TODO 부분 완성
 2. `StorageLayout.t.sol`의 테스트 작성
-3. `exercises/EXERCISES.md`의 문제 풀이
+3. `step02_exercises/EXERCISES.md`의 문제 풀이
 
 ---
 

@@ -14,9 +14,9 @@ contract StorageLayoutTest is Test {
     function test_VariablePacking() public {
         // TODO: 변수 패킹이 제대로 작동하는지 테스트
         // 각 변수의 슬롯 위치를 확인하고 검증하세요
-        storageLayout.set_a(1);
-        storageLayout.set_b(2);
-        storageLayout.set_c(3);
+        storageLayout.setA(1);
+        storageLayout.setB(2);
+        storageLayout.setC(3);
         
         // 슬롯 읽기 테스트
         bytes32 slot0 = storageLayout.readSlot(0);
@@ -36,7 +36,8 @@ contract StorageLayoutTest is Test {
         storageLayout.setDynamicArray(values);
         
         // 배열 슬롯 계산
-        uint256 arraySlot = 5; // dynamicArray의 슬롯 위치
+        // dynamicArray는 Slot 3에 저장됨 (forge inspect로 확인)
+        uint256 arraySlot = 3; // dynamicArray의 슬롯 위치
         uint256 index0Slot = storageLayout.readArraySlot(arraySlot, 0);
         uint256 index1Slot = storageLayout.readArraySlot(arraySlot, 1);
         
@@ -52,7 +53,8 @@ contract StorageLayoutTest is Test {
         storageLayout.setBalance(testAddr, amount);
         
         // 매핑 슬롯 계산
-        uint256 mappingSlot = 6; // balances의 슬롯 위치
+        // balances는 Slot 4에 저장됨 (forge inspect로 확인)
+        uint256 mappingSlot = 4; // balances의 슬롯 위치
         uint256 calculatedSlot = storageLayout.readMappingSlot(mappingSlot, testAddr);
         
         console.log("Mapping slot:", calculatedSlot);
