@@ -16,22 +16,164 @@ curl -L https://foundry.paradigm.xyz | bash
 foundryup
 ```
 
+### Foundry를 사용하는 이유
+
+#### ✅ 장점
+
+1. **빠른 실행 속도**
+   - Rust로 작성되어 매우 빠른 컴파일 및 테스트 실행
+   - Hardhat, Truffle보다 훨씬 빠른 성능
+
+2. **강력한 테스트 기능**
+   - Fuzz Testing: 무작위 입력으로 버그 발견
+   - Invariant Testing: 불변 조건 자동 검증
+   - Fork Testing: 메인넷/테스트넷 상태를 포크하여 테스트
+
+3. **간단한 설정**
+   - 복잡한 설정 파일 없이 바로 시작 가능
+   - `foundry.toml` 하나로 모든 설정 관리
+
+4. **명령어 도구 (cast, anvil)**
+   - `cast`: 블록체인과 상호작용하는 CLI 도구
+   - `anvil`: 로컬 이더리움 노드 (Hardhat node와 유사)
+   - `forge`: 컴파일, 테스트, 배포 통합 도구
+
+5. **가스 최적화 분석**
+   - 테스트 실행 시 가스 사용량 자동 측정
+   - 가스 최적화에 유용한 정보 제공
+
+6. **무료 및 오픈소스**
+   - 완전 무료이며 오픈소스
+   - 활발한 커뮤니티와 지속적인 업데이트
+
+#### ⚠️ 단점
+
+1. **학습 곡선**
+   - Rust 기반이라 초보자에게는 다소 어려울 수 있음
+   - Solidity만 알던 개발자는 새로운 도구 학습 필요
+
+2. **에코시스템**
+   - Hardhat/Truffle에 비해 플러그인과 확장 기능이 적음
+   - 일부 서드파티 도구와의 통합이 제한적
+
+3. **디버깅 도구**
+   - Hardhat의 콘솔 로그보다 덜 직관적
+   - 디버깅 기능이 상대적으로 단순함
+
+4. **문서화**
+   - 공식 문서가 있지만, 예제가 Hardhat보다 적을 수 있음
+   - 한국어 자료가 상대적으로 부족
+
+#### 🎯 언제 Foundry를 사용하나요?
+
+**Foundry가 적합한 경우:**
+- ✅ 빠른 테스트 실행이 중요한 경우
+- ✅ Fuzz Testing이 필요한 복잡한 컨트랙트
+- ✅ 가스 최적화에 집중하는 경우
+- ✅ 최신 도구를 선호하는 경우
+
+**다른 도구를 고려할 경우:**
+- TypeScript/JavaScript 생태계와의 통합이 중요한 경우 (Hardhat)
+- 기존 프로젝트가 Truffle로 작성된 경우
+- 더 많은 플러그인과 확장 기능이 필요한 경우
+
+**결론**: Foundry는 현대적인 Solidity 개발에 최적화된 도구로, 특히 테스트와 가스 최적화에 강점이 있습니다. 이 학습 과정에서는 Foundry를 사용하여 실전에 가까운 개발 경험을 제공합니다.
+
 ### 프로젝트 초기화
+
+#### 1. 프로젝트 생성
 ```bash
 forge init Day1/practice
-  // 지정된 경우에 기본적인 Foundry 프로젝트 구조를 생성하고 필수 라이브러리를 설치하는 명령어
+```
+- **의미**: 기본적인 Foundry 프로젝트 구조를 생성하고 필수 라이브러리를 설치
+- **생성되는 구조**:
+  ```
+  practice/
+  ├── src/          # 컨트랙트 소스 코드
+  ├── test/         # 테스트 파일
+  ├── script/       # 배포 스크립트
+  ├── lib/          # 라이브러리 (forge-std 등)
+  └── foundry.toml  # Foundry 설정 파일
+  ```
+
+#### 2. 컴파일
+```bash
 cd Day1/practice
 forge build
-  // 경고 메시지들은 오류가 아니라, 최신 버전의 Solidity 컴파일러와 forge-std 라이브러리 간의 문법 호환성 문제로 인해 발생한 경고 | "forge build" 는 프로젝트 내 src, test, script 폴더에 있는 모든 .sol 파일을 컴파일한다. | 컴파일된 결과물(ABI, 바이트코드 등)은 out 디렉토리에 저장됩니다. | 이 명령어가 오류 없이 종료되었다면, 프로젝트는 정상적으로 빌드된 것입니다.
+```
+- **의미**: 프로젝트 내 `src/`, `test/`, `script/` 폴더에 있는 모든 `.sol` 파일을 컴파일
+- **결과물**: 컴파일된 결과물(ABI, 바이트코드 등)은 `out/` 디렉토리에 저장
+- **성공 기준**: 오류 없이 종료되면 정상적으로 빌드된 것입니다
+
+#### 3. 테스트 실행
+```bash
+forge test
+```
+- **의미**: `test/` 폴더의 모든 테스트 파일을 실행
+
+---
+
+### ⚠️ 설치/컴파일 중 발생하는 경고 메시지
+
+#### 경고 1: Natspec memory-safe-assembly 경고
+
+**경고 메시지:**
+```
 Warning (2424): Natspec memory-safe-assembly special comment for inline assembly is deprecated and scheduled for removal. Use the memory-safe block annotation instead.
     --> lib/forge-std/src/safeconsole.sol:4271:9:
      |
 4271 |         assembly {
      |         ^ (Relevant source part starts here and spans across multiple lines).
-  // 최신 Solidity 컴파일러(v0.8.20 이상)에서는 어셈블리 블록의 메모리 안전성을 표시하는 방식이 변경되었습니다.
-  // 
-forge test
 ```
+
+**원인:**
+- 최신 Solidity 컴파일러(v0.8.20 이상)에서 어셈블리 블록의 메모리 안전성을 표시하는 방식이 변경됨
+- `forge-std` 라이브러리가 이전 방식의 주석을 사용하고 있음
+
+**해결 방법:**
+- ✅ **이 경고는 무시해도 됩니다**
+- 라이브러리(`forge-std`)의 문제이지, 우리 코드의 문제가 아님
+- 컴파일과 실행에는 전혀 영향이 없음
+- `forge-std`가 업데이트되면 자동으로 해결될 예정
+
+**정리:**
+- ❌ **에러가 아닙니다**: 경고(Warning)일 뿐, 컴파일은 정상적으로 완료됨
+- ✅ **무시 가능**: 프로젝트 진행에 문제 없음
+- 📝 **원인**: Solidity 컴파일러와 `forge-std` 라이브러리 간의 문법 호환성 문제
+
+#### 기타 자주 발생하는 경고/에러
+
+**경고 2: Mixed-case function name**
+```
+note[mixed-case-function]: function names should use mixedCase
+```
+- **의미**: 함수 이름은 camelCase를 사용해야 함
+- **해결**: 함수 이름을 `setNumber()`처럼 camelCase로 변경 (선택사항)
+
+**에러 1: Import not found**
+```
+Error: Source "forge-std/Test.sol" not found
+```
+- **원인**: `forge-std` 라이브러리가 설치되지 않음
+- **해결**: `forge install foundry-rs/forge-std` 실행
+
+**에러 2: Compilation failed**
+```
+Error: Compiler run failed
+```
+- **원인**: Solidity 문법 오류
+- **해결**: 에러 메시지를 읽고 코드 수정
+
+---
+
+### ✅ 정상적인 컴파일 결과
+
+컴파일이 성공하면 다음과 같은 메시지가 나옵니다:
+```
+Compiler run successful!
+```
+
+이 메시지가 나오면 프로젝트가 정상적으로 설정된 것입니다.
 
 ## 📅 학습 일정
 
